@@ -4,27 +4,24 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import mm
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak, KeepTogether
 from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.pdfbase.cidfonts import UnicodeCIDFont
 from reportlab.lib.enums import TA_CENTER
 from pathlib import Path
 
 root = Path('/root/pdf-store')
 out_pdf = root / '机械设计第2章第3章零基础融合讲义.pdf'
 out_txt = root / '机械设计第2章第3章零基础融合讲义_源稿.txt'
-font_path = '/usr/share/fonts/opentype/noto/NotoSerifCJK-Regular.ttc'
-bold_font_path = '/usr/share/fonts/opentype/noto/NotoSerifCJK-Bold.ttc'
-pdfmetrics.registerFont(TTFont('NotoSerifCJK', font_path))
-pdfmetrics.registerFont(TTFont('NotoSerifCJKBold', bold_font_path))
+pdfmetrics.registerFont(UnicodeCIDFont('STSong-Light'))
 
 styles = getSampleStyleSheet()
-base = ParagraphStyle('base', parent=styles['Normal'], fontName='NotoSerifCJK', fontSize=10.5, leading=17, textColor=colors.HexColor('#222222'), spaceAfter=5)
-title = ParagraphStyle('title', parent=base, fontName='NotoSerifCJKBold', fontSize=22, leading=30, alignment=TA_CENTER, textColor=colors.HexColor('#1f3a5f'), spaceAfter=14)
+base = ParagraphStyle('base', parent=styles['Normal'], fontName='STSong-Light', fontSize=10.5, leading=17, textColor=colors.HexColor('#222222'), spaceAfter=5)
+title = ParagraphStyle('title', parent=base, fontName='STSong-Light', fontSize=22, leading=30, alignment=TA_CENTER, textColor=colors.HexColor('#1f3a5f'), spaceAfter=14)
 subtitle = ParagraphStyle('subtitle', parent=base, fontSize=11, leading=18, alignment=TA_CENTER, textColor=colors.HexColor('#555555'), spaceAfter=16)
-h1 = ParagraphStyle('h1', parent=base, fontName='NotoSerifCJKBold', fontSize=16, leading=24, textColor=colors.HexColor('#1f3a5f'), spaceBefore=12, spaceAfter=8)
-h2 = ParagraphStyle('h2', parent=base, fontName='NotoSerifCJKBold', fontSize=13, leading=20, textColor=colors.HexColor('#8a4b20'), spaceBefore=9, spaceAfter=5)
-h3 = ParagraphStyle('h3', parent=base, fontName='NotoSerifCJKBold', fontSize=11.5, leading=18, textColor=colors.HexColor('#333333'), spaceBefore=6, spaceAfter=3)
+h1 = ParagraphStyle('h1', parent=base, fontName='STSong-Light', fontSize=16, leading=24, textColor=colors.HexColor('#1f3a5f'), spaceBefore=12, spaceAfter=8)
+h2 = ParagraphStyle('h2', parent=base, fontName='STSong-Light', fontSize=13, leading=20, textColor=colors.HexColor('#8a4b20'), spaceBefore=9, spaceAfter=5)
+h3 = ParagraphStyle('h3', parent=base, fontName='STSong-Light', fontSize=11.5, leading=18, textColor=colors.HexColor('#333333'), spaceBefore=6, spaceAfter=3)
 small = ParagraphStyle('small', parent=base, fontSize=9, leading=14, textColor=colors.HexColor('#666666'))
-formula = ParagraphStyle('formula', parent=base, fontName='NotoSerifCJK', fontSize=11, leading=18, alignment=TA_CENTER, textColor=colors.HexColor('#111111'), backColor=colors.HexColor('#f6f8fb'), borderColor=colors.HexColor('#d8e0ea'), borderWidth=0.5, borderPadding=6, spaceBefore=4, spaceAfter=8)
+formula = ParagraphStyle('formula', parent=base, fontName='STSong-Light', fontSize=11, leading=18, alignment=TA_CENTER, textColor=colors.HexColor('#111111'), backColor=colors.HexColor('#f6f8fb'), borderColor=colors.HexColor('#d8e0ea'), borderWidth=0.5, borderPadding=6, spaceBefore=4, spaceAfter=8)
 warn = ParagraphStyle('warn', parent=base, textColor=colors.HexColor('#7a2e00'), backColor=colors.HexColor('#fff4e6'), borderColor=colors.HexColor('#f0c28a'), borderWidth=0.5, borderPadding=6)
 
 source_lines = []
@@ -43,7 +40,7 @@ def tbl(rows, widths=None):
     data = [[Paragraph(str(c), base) for c in r] for r in rows]
     t = Table(data, colWidths=widths, hAlign='LEFT')
     t.setStyle(TableStyle([
-        ('FONTNAME', (0,0), (-1,-1), 'NotoSerifCJK'),
+        ('FONTNAME', (0,0), (-1,-1), 'STSong-Light'),
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#edf3fb')),
         ('TEXTCOLOR', (0,0), (-1,0), colors.HexColor('#1f3a5f')),
         ('GRID', (0,0), (-1,-1), 0.35, colors.HexColor('#cfd7e2')),
@@ -288,7 +285,7 @@ out_txt.write_text('\n'.join(source_lines), encoding='utf-8')
 
 def footer(canvas, doc):
     canvas.saveState()
-    canvas.setFont('NotoSerifCJK', 8)
+    canvas.setFont('STSong-Light', 8)
     canvas.setFillColor(colors.HexColor('#666666'))
     canvas.drawString(18*mm, 10*mm, '机械设计第2章、第3章零基础融合讲义')
     canvas.drawRightString(195*mm, 10*mm, str(doc.page))
